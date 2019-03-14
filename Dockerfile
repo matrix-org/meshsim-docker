@@ -98,10 +98,10 @@ COPY coap-proxy/maps /proxy/maps
 
 COPY ./meshsim/topologiser /topologiser
 
-COPY ./docker/start.sh /
-COPY ./docker/start-synapse.py /
-COPY ./docker/conf /conf
-COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./meshsim-docker/start.sh /
+COPY ./meshsim-docker/start-synapse.py /
+COPY ./meshsim-docker/conf /conf
+COPY ./meshsim-docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 VOLUME ["/data"]
 
