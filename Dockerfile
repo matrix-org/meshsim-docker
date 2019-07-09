@@ -62,15 +62,12 @@ RUN pip install --prefix="/install" --no-warn-script-location flask
 ### Stage 1: Go build
 ###
 
-FROM docker.io/golang:1.11.2-stretch as go-builder
+FROM docker.io/golang:1.12-stretch as go-builder
 
 COPY coap-proxy /build
 WORKDIR /build
 
-RUN go get github.com/constabulary/gb/...
-
-RUN ./build-release.sh
-
+RUN go build
 
 ###
 ### Stage 2: runtime
@@ -89,11 +86,13 @@ RUN apt-get update && apt-get install -y \
     less \
     lsof \
     supervisor \
-    netcat
+    netcat \
+    python-psycopg2 \
+    libpq-dev
 
 COPY --from=python-builder /install /usr/local
 
-COPY --from=go-builder /build/bin/ /proxy/bin/
+COPY --from=go-builder /build/coap-proxy /proxy/bin/
 COPY coap-proxy/maps /proxy/maps
 
 COPY ./meshsim/topologiser /topologiser
